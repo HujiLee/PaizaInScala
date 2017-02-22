@@ -1,0 +1,127 @@
+/**
+  * Created by Administrator on 2016/11/7 0007.
+  */
+
+println(1 + 2)
+import java.net.MalformedURLException
+
+import scala.math._
+println(sqrt(2))
+println(2 * pow(1,2))
+println("........")
+def hello(name:String="Nobody"): Unit ={
+  println("Hello you're "+name)
+}
+//"函数 可以使用默认参数"
+hello()//默认为Nobody
+hello("HUjimiya")
+println("........")
+def sum(args:Int*)={
+  //"变长参数,本函数能够累加输入的一串int数字"
+  var r = 0
+  for(arg<-args){
+    r+=arg
+  }
+  r
+}
+println(sum(1,2,3))
+println(sum(1,2,3,4))
+//println(sum(1 to 5))//WRONG!!!!
+println(sum(1 to 5:_*))//Right 形式
+println("........")
+def process(str:String="default"){
+  for(i<-1 to 3){
+    print(str+">")
+  }
+  println(str)
+}
+//没有等号 不指定返回类型(其实相当于返回Unit的函数) 这种叫做"过程procedure"
+process("233")
+def hrline(): Unit ={
+  println("--------*********************--------")
+}
+hrline()
+lazy val i =100
+//lazy 只能用在val 延迟初始化 到使用时才被赋值
+hrline()
+try {
+  println(1/1)
+  println(1/0)
+}catch {
+  case _:MalformedURLException=>;//把异常命名成——其实就是不想处理这个异常
+  case ex:ArithmeticException=>{
+    //ex就是现在这个异常的名字
+    println(ex.printStackTrace())
+    println("zero / is not available")
+  }
+}finally {
+  println("Over")
+  //无论try里面的语句抛不抛出异常 finally都会执行
+}
+hrline()
+var arrInt = new Array[Int](5)
+println(arrInt(4))//默认情况下初始都是0
+var arrString = new Array[String](5)//都是null
+println(arrString(0))
+val strs=Array("233",
+  """Wor
+    |ld""".stripMargin)//也可以直接赋值 不需要new 自动判断类型
+println(strs(1))
+hrline()
+import scala.collection.mutable.ArrayBuffer//引用可变的ArrayBuffer
+val buffInt = ArrayBuffer[Int]()
+buffInt+=1//末尾添加元素
+buffInt+=(2,4,8)//末尾添加多个元素
+buffInt++=Array(6,5,4)//++=添加另一个集合
+println(buffInt)//[out:]ArrayBuffer(1, 2, 4, 8, 6, 5, 4)
+buffInt.trimEnd(2)//删除最后两个元素
+println(buffInt)
+buffInt.insert(2,233,2333)//在index=2的元素前插入233和2333
+println(buffInt)
+buffInt.remove(2,2)//在index=2的位置开始删除两个元素
+println(buffInt)
+val bufToA = buffInt.toArray//变成数组定长   P.S.数组也可以toBuffer()
+println(bufToA.getClass)
+println(bufToA(bufToA.length-1))
+hrline()
+val arr = ArrayBuffer(1,2,3,4,5)
+val newarr1 = for(e<-arr) yield 2*e//newarr=(2,4,6,8,10)
+println(newarr1)
+val newarr2 = arr.filter(_%2==0).map(2*_)//将arr中的偶数抽出and x2得到(4,8)
+println(newarr2)
+val newarr3 = for(e<-arr if e%2==0) yield 2*e//同上
+println(newarr3)
+val newarr4 = for(e<-arr) yield {
+  if(e%2==0){
+    2*e
+  }else{
+    e
+  }
+  //将arr中的偶数×2 奇数不变
+}
+println(newarr4)
+val newarr5 = arr.map(x=>{
+  if(x%2==0){
+    x*2
+  }else{
+    x
+  }
+})
+println(newarr5)//同newarr4
+println(newarr4.isInstanceOf[ArrayBuffer[Int]])//true
+println(newarr4.isInstanceOf[ArrayBuffer[Any]])//true
+println(newarr4.sum)//求和
+println(newarr4.max)//最大值
+var arr5 = Array(9,8,7,2,1,6)
+scala.util.Sorting.quickSort(arr5)//对arr5本身进行了修改排序
+println(arr5.toBuffer)
+hrline()
+//接下来是多维数组
+val matrix = Array.ofDim[Double](3,5)
+matrix(0)(0)=24//明明是val也可以修改成功!吓坏了宝宝
+matrix(0)(0)=21
+var matrix3d=Array.ofDim[Any](4,2,3)//可以更多维度
+
+
+
+
